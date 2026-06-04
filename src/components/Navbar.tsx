@@ -32,7 +32,7 @@ export default function Navbar() {
             </span>
           </div>
           <span className="text-studio-text font-semibold tracking-widest text-xs uppercase">
-            YOUR BRAND
+            Lumiere Wellness Center
           </span>
         </Link>
 

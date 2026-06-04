@@ -2,12 +2,15 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import WhatsAppButton from "@/components/WhatsAppButton";
 
 export const metadata: Metadata = {
-  title: "YOUR BRAND | Premium Beauty Studio Los Angeles",
+  title: "Lumiere Wellness Center | Premium Beauty Studio Los Angeles",
   description:
-    "Premium beauty studio in Los Angeles offering custom facials, lash extensions, brow design, and transformative skincare treatments.",
+    "Lumiere Wellness Center — premium wellness and beauty studio in Los Angeles offering custom facials, lash extensions, brow design, and transformative skincare treatments.",
   keywords: [
+    "Lumiere Wellness Center",
+    "wellness center",
     "beauty studio",
     "facials",
     "lash extensions",
@@ -29,6 +32,7 @@ export default function RootLayout({
         <Navbar />
         <main className="min-h-screen pt-16">{children}</main>
         <Footer />
+        <WhatsAppButton />
       </body>
     </html>
   );

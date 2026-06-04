@@ -166,10 +166,12 @@ export default function PortfolioPage() {
         <p className="text-center text-studio-subtle text-sm mt-16">
           Follow us on Instagram{" "}
           <a
-            href="#"
+            href="https://instagram.com/labeautyla"
+            target="_blank"
+            rel="noopener noreferrer"
             className="text-studio-accent hover:underline underline-offset-2"
           >
-            @yourbrand
+            @labeautyla
           </a>{" "}
           for the latest transformations and behind-the-scenes moments.
         </p>

@@ -8,63 +8,69 @@ import {
   Zap,
   Wind,
   Scissors,
+  Droplets,
   ArrowRight,
+  Plus,
 } from "lucide-react";
 
-const services = [
+type Service = {
+  title: string;
+  price: string;
+  addOn?: string;
+  icon: React.ElementType;
+};
+
+type Category = {
+  label: string;
+  description: string;
+  services: Service[];
+};
+
+const categories: Category[] = [
   {
-    icon: Sparkles,
-    title: "Custom Facials",
+    label: "Facials",
     description:
-      "Our signature custom facial is a fully personalized treatment. We analyze your skin type, lifestyle, and goals to create a targeted protocol using medical-grade products. Includes double cleanse, exfoliation, extractions, mask, and relaxing facial massage.",
-    duration: "60 min",
-    price: "From $120",
-    tags: ["Anti-Aging", "Hydrating", "Brightening", "Acne Care"],
+      "Personalized treatments designed to cleanse, treat, and revitalize your skin using medical-grade products.",
+    services: [
+      { title: "Facial Esencial", price: "$100", addOn: "+ Ampoule", icon: Sparkles },
+      { title: "Plasma Acne Facial", price: "$115", addOn: "+ Ampoule", icon: Zap },
+      { title: "Hydrafacial", price: "$150", addOn: "+ Ampoule", icon: Droplets },
+      { title: "Lift + Facial", price: "$140", addOn: "+ Ampoule", icon: Sparkles },
+      { title: "Brightening Facial", price: "$140", addOn: "+ Ampoule", icon: Sparkles },
+      { title: "Sensitive Skin Facial", price: "$130", addOn: "+ Ampoule", icon: Leaf },
+      { title: "Microdermabrasion", price: "$75", icon: Wind },
+      { title: "Microdermabrasion + Facial", price: "$130", addOn: "+ Ampoule", icon: Wind },
+      { title: "Chemical Peel Facial (Superficial)", price: "$150", addOn: "+ Ampoule", icon: Zap },
+      { title: "Luxury Spa Facial", price: "$180", addOn: "+ Ampoule", icon: Sparkles },
+      { title: "Back Facial", price: "$250", icon: Sparkles },
+      { title: "Dermaplaning", price: "$100", icon: Wind },
+    ],
   },
   {
-    icon: Star,
-    title: "Lash Extensions",
+    label: "Lash & Brow",
     description:
-      "Achieve effortlessly beautiful lashes with our hand-applied extensions. Choose from classic for a natural, mascara-like look; hybrid for added fullness; or volume for bold, dramatic impact. Results last 3–4 weeks with proper aftercare.",
-    duration: "90–150 min",
-    price: "From $160",
-    tags: ["Classic", "Hybrid", "Volume", "Mega Volume"],
+      "Expert lash and brow treatments to define and elevate your natural features.",
+    services: [
+      { title: "Lash Lift", price: "$70", icon: Star },
+      { title: "Brow Lamination", price: "$70", icon: Leaf },
+      { title: "Lash & Brow Tint", price: "$50", icon: Leaf },
+    ],
   },
   {
-    icon: Leaf,
-    title: "Brow Design",
+    label: "Body",
     description:
-      "Frame your face with perfectly sculpted brows. From precision threading and waxing to lamination and tinting, we craft a brow shape that enhances your natural features and lasts for weeks without daily upkeep.",
-    duration: "45–90 min",
-    price: "From $55",
-    tags: ["Lamination", "Tinting", "Shaping", "Microblading"],
+      "Nourishing and smoothing body treatments for a full head-to-toe glow.",
+    services: [
+      { title: "Body Scrub", price: "$40", icon: Droplets },
+    ],
   },
   {
-    icon: Zap,
-    title: "Chemical Peels",
+    label: "Waxing",
     description:
-      "Reveal smoother, clearer, and more luminous skin with our professional-grade chemical peels. Formulated for a range of skin types and concerns, from superficial brightening to deeper resurfacing treatments targeting fine lines and uneven texture.",
-    duration: "45 min",
-    price: "From $150",
-    tags: ["Brightening", "Resurfacing", "Acne", "Anti-Aging"],
-  },
-  {
-    icon: Wind,
-    title: "Dermaplaning",
-    description:
-      "A gentle blade-based exfoliation technique that removes dead skin cells and vellus hair (peach fuzz) for an instantly smooth, luminous complexion. Perfect before a big event or as a regular step in your skincare ritual.",
-    duration: "30–45 min",
-    price: "From $85",
-    tags: ["Exfoliation", "Smoothing", "Glow", "Prep Treatment"],
-  },
-  {
-    icon: Scissors,
-    title: "Waxing Services",
-    description:
-      "Fast, effective, and gentle full-body waxing using premium hard and soft wax formulas. Our estheticians ensure the most comfortable experience possible, with minimal redness and long-lasting smooth results.",
-    duration: "15–60 min",
-    price: "From $20",
-    tags: ["Face", "Body", "Bikini", "Brazilian"],
+      "Fast, gentle hair removal using premium wax formulas for long-lasting smooth results.",
+    services: [
+      { title: "Waxing", price: "$40", addOn: "per zone", icon: Scissors },
+    ],
   },
 ];
 
@@ -72,6 +78,7 @@ export default function ServicesPage() {
   return (
     <div className="py-20 px-6">
       <div className="max-w-6xl mx-auto">
+
         {/* Header */}
         <div className="text-center mb-20">
           <span className="text-studio-accent text-xs font-bold tracking-[0.25em] uppercase">
@@ -86,62 +93,58 @@ export default function ServicesPage() {
           </p>
         </div>
 
-        {/* Service Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-20">
-          {services.map(
-            ({ icon: Icon, title, description, duration, price, tags }) => (
-              <Card
-                key={title}
-                className="group hover:border-studio-accent/40 transition-all duration-300"
-              >
-                <CardContent className="p-8">
-                  <div className="flex items-start gap-5">
-                    {/* Icon */}
-                    <div className="w-12 h-12 rounded-xl bg-studio-accent/10 border border-studio-accent/25 flex items-center justify-center flex-shrink-0 group-hover:bg-studio-accent/20 transition-colors mt-0.5">
-                      <Icon size={20} className="text-studio-accent" />
-                    </div>
+        {/* Ampoule add-on note */}
+        <div className="flex items-start gap-3 bg-studio-surface border border-studio-accent/25 rounded-xl p-4 mb-14 max-w-lg mx-auto">
+          <div className="w-8 h-8 rounded-lg bg-studio-accent/15 border border-studio-accent/30 flex items-center justify-center flex-shrink-0 mt-0.5">
+            <Plus size={14} className="text-studio-accent" />
+          </div>
+          <p className="text-studio-muted text-sm leading-relaxed">
+            <span className="text-studio-text font-semibold">Ampoule Add-On available</span> for
+            most facial treatments — an extra boost of concentrated active ingredients
+            customized to your skin concern.
+          </p>
+        </div>
 
-                    <div className="flex-1 min-w-0">
-                      {/* Title + pricing */}
-                      <div className="flex items-start justify-between gap-3 mb-3">
-                        <h2 className="text-studio-text font-semibold text-xl leading-snug">
+        {/* Categories */}
+        <div className="space-y-20">
+          {categories.map((cat) => (
+            <div key={cat.label}>
+              {/* Category header */}
+              <div className="mb-8 pb-4 border-b border-studio-border">
+                <h2 className="text-2xl font-bold text-studio-text">{cat.label}</h2>
+                <p className="text-studio-muted text-sm mt-1.5 max-w-lg">{cat.description}</p>
+              </div>
+
+              {/* Service cards */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {cat.services.map(({ title, price, addOn, icon: Icon }) => (
+                  <Card
+                    key={title}
+                    className="group hover:border-studio-accent/40 transition-all duration-300 hover:-translate-y-1"
+                  >
+                    <CardContent className="p-6 flex items-start gap-4">
+                      <div className="w-10 h-10 rounded-xl bg-studio-accent/10 border border-studio-accent/25 flex items-center justify-center flex-shrink-0 group-hover:bg-studio-accent/20 transition-colors">
+                        <Icon size={18} className="text-studio-accent" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-studio-text font-semibold text-sm leading-snug mb-1.5">
                           {title}
-                        </h2>
-                        <div className="text-right flex-shrink-0">
-                          <p className="text-studio-accent font-semibold text-sm">
-                            {price}
-                          </p>
-                          <p className="text-studio-subtle text-xs mt-0.5">
-                            {duration}
-                          </p>
-                        </div>
+                        </p>
+                        <p className="text-studio-accent font-bold text-lg">{price}</p>
+                        {addOn && (
+                          <p className="text-studio-subtle text-xs mt-0.5">{addOn}</p>
+                        )}
                       </div>
-
-                      <p className="text-studio-muted text-sm leading-relaxed mb-4">
-                        {description}
-                      </p>
-
-                      {/* Tags */}
-                      <div className="flex flex-wrap gap-2">
-                        {tags.map((tag) => (
-                          <span
-                            key={tag}
-                            className="text-xs px-3 py-1 rounded-full bg-studio-surface border border-studio-border text-studio-muted"
-                          >
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            )
-          )}
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </div>
+          ))}
         </div>
 
         {/* CTA */}
-        <div className="relative rounded-3xl bg-studio-surface border border-studio-border p-12 md:p-16 text-center overflow-hidden">
+        <div className="relative rounded-3xl bg-studio-surface border border-studio-border p-12 md:p-16 text-center overflow-hidden mt-20">
           <div
             className="absolute inset-0 pointer-events-none"
             style={{

@@ -23,7 +23,7 @@ const contactInfo = [
   {
     icon: Mail,
     label: "Email",
-    value: "hello@yourbrand.com",
+    value: "hello@labeautyla.com",
     sub: "We reply within 24 hours",
   },
   {
@@ -88,7 +88,7 @@ export default function ContactPage() {
             Book a Session
           </h1>
           <p className="text-studio-muted max-w-xl mx-auto leading-relaxed text-lg">
-            Ready to experience the studio? Fill out the form below or use our
+            Ready to experience Lumiere Wellness Center? Fill out the form below or use our
             online scheduler to secure your appointment.
           </p>
         </div>

@@ -26,7 +26,7 @@ export default function Footer() {
                 <span className="text-studio-accent text-xs font-bold">L</span>
               </div>
               <span className="text-studio-text font-semibold tracking-widest text-xs uppercase">
-                YOUR BRAND
+                Lumiere Wellness Center
               </span>
             </div>
             <p className="text-studio-muted text-sm leading-relaxed max-w-xs">
@@ -96,7 +96,7 @@ export default function Footer() {
 
         <div className="mt-14 pt-8 border-t border-studio-border flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="text-studio-subtle text-xs">
-            © {new Date().getFullYear()} YOUR BRAND. All rights reserved.
+            © {new Date().getFullYear()} Lumiere Wellness Center. All rights reserved.
           </p>
           <p className="text-studio-subtle text-xs">
             Crafted with care in Los Angeles

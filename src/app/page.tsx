@@ -14,21 +14,24 @@ import {
 const featuredServices = [
   {
     icon: Sparkles,
-    title: "Custom Facials",
+    title: "Facials & Peels",
+    price: "From $100",
     description:
-      "Personalized treatments that target your unique skin concerns, leaving you glowing and deeply refreshed.",
+      "From the Essential Facial to our Luxury Spa Facial and Hydrafacial — every treatment is fully personalized using medical-grade products.",
   },
   {
     icon: Star,
-    title: "Lash Extensions",
+    title: "Lash Lift & Brow Lamination",
+    price: "$70",
     description:
-      "Classic, hybrid, and volume sets designed to frame your eyes and elevate your natural beauty effortlessly.",
+      "Lift and define your natural lashes or sculpt perfectly laminated brows for a polished look that lasts weeks.",
   },
   {
     icon: Leaf,
-    title: "Brow Design",
+    title: "Dermaplaning",
+    price: "$100",
     description:
-      "Expert shaping, lamination, and tinting to define and perfect your brows with precision and artistry.",
+      "Gentle blade exfoliation that removes dead skin cells and peach fuzz, leaving you with an instantly smooth and luminous complexion.",
   },
 ];
 
@@ -88,7 +91,7 @@ export default function HomePage() {
         <div className="relative z-10 max-w-6xl mx-auto px-6 py-28">
           <div className="max-w-2xl">
             <span className="inline-block text-studio-accent text-xs font-bold tracking-[0.25em] uppercase mb-5">
-              Los Angeles Beauty Studio
+              Lumiere Wellness Center — Los Angeles
             </span>
             <h1 className="text-5xl md:text-7xl font-bold text-studio-text leading-[1.1] mb-7">
               Elevate Your{" "}
@@ -157,7 +160,7 @@ export default function HomePage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-            {featuredServices.map(({ icon: Icon, title, description }) => (
+            {featuredServices.map(({ icon: Icon, title, price, description }) => (
               <Card
                 key={title}
                 className="group hover:border-studio-accent/50 transition-all duration-300 hover:-translate-y-1.5"
@@ -166,9 +169,14 @@ export default function HomePage() {
                   <div className="w-12 h-12 rounded-xl bg-studio-accent/10 border border-studio-accent/25 flex items-center justify-center mb-5 group-hover:bg-studio-accent/20 transition-colors">
                     <Icon size={22} className="text-studio-accent" />
                   </div>
-                  <h3 className="text-studio-text font-semibold text-xl mb-3">
-                    {title}
-                  </h3>
+                  <div className="flex items-start justify-between gap-2 mb-3">
+                    <h3 className="text-studio-text font-semibold text-xl leading-snug">
+                      {title}
+                    </h3>
+                    <span className="text-studio-accent font-bold text-sm flex-shrink-0 mt-1">
+                      {price}
+                    </span>
+                  </div>
                   <p className="text-studio-muted text-sm leading-relaxed">
                     {description}
                   </p>
@@ -195,7 +203,7 @@ export default function HomePage() {
             <div className="relative">
               <img
                 src="https://placehold.co/700x520/2C1F19/C8882A?text=Studio"
-                alt="Luci Beauty Studio"
+                alt="Lumiere Wellness Center"
                 className="rounded-2xl w-full object-cover border border-studio-border"
               />
               {/* Floating info card */}
