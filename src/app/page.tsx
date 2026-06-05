@@ -1,298 +1,216 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import {
-  Sparkles,
-  Leaf,
-  Star,
-  ArrowRight,
-  Clock,
-  Users,
-  ShieldCheck,
-} from "lucide-react";
 
-const featuredServices = [
-  {
-    icon: Sparkles,
-    title: "Facials & Peels",
-    price: "From $100",
-    description:
-      "From the Essential Facial to our Luxury Spa Facial and Hydrafacial — every treatment is fully personalized using medical-grade products.",
-  },
-  {
-    icon: Star,
-    title: "Lash Lift & Brow Lamination",
-    price: "$70",
-    description:
-      "Lift and define your natural lashes or sculpt perfectly laminated brows for a polished look that lasts weeks.",
-  },
-  {
-    icon: Leaf,
-    title: "Dermaplaning",
-    price: "$100",
-    description:
-      "Gentle blade exfoliation that removes dead skin cells and peach fuzz, leaving you with an instantly smooth and luminous complexion.",
-  },
-];
+type Service = {
+  id: number;
+  name: string;
+  category: string;
+  description: string;
+  duration: string;
+  price: string;
+  featured: boolean;
+};
 
-const stats = [
-  { value: "500+", label: "Happy Clients" },
-  { value: "5 ★", label: "Average Rating" },
-  { value: "8+", label: "Years Experience" },
-  { value: "20+", label: "Treatments Offered" },
-];
-
-const reasons = [
-  {
-    icon: ShieldCheck,
-    title: "Medical-Grade Products",
-    description:
-      "We use only professional-grade skincare lines trusted by dermatologists and estheticians alike.",
-  },
-  {
-    icon: Users,
-    title: "Personalized Approach",
-    description:
-      "Every visit begins with a skin assessment so your treatment is perfectly tailored to you.",
-  },
-  {
-    icon: Clock,
-    title: "Flexible Scheduling",
-    description:
-      "Open seven days a week with online booking — we work around your schedule, not the other way around.",
-  },
-];
+function SkeletonCard() {
+  return (
+    <div className="skeleton-card">
+      <div className="skeleton skeleton-tag" />
+      <div className="skeleton skeleton-name" />
+      <div className="skeleton skeleton-text" />
+      <div className="skeleton skeleton-text" />
+      <div className="skeleton skeleton-text" />
+      <div className="skeleton skeleton-btn" />
+    </div>
+  );
+}
 
 export default function HomePage() {
+  const [featured, setFeatured] = useState<Service[] | null>(null);
+
+  useEffect(() => {
+    fetch("/data/services.json")
+      .then((r) => r.json())
+      .then((data: Service[]) => setFeatured(data.filter((s) => s.featured).slice(0, 3)))
+      .catch(() => setFeatured([]));
+  }, []);
+
   return (
     <>
-      {/* ── Hero ─────────────────────────────────────────────────────── */}
-      <section className="relative min-h-[92vh] flex items-center overflow-hidden">
-        {/* Background */}
-        <div className="absolute inset-0 z-0">
-          <img
-            src="https://placehold.co/1920x1080/1A1210/2C1F19?text=."
-            alt=""
-            aria-hidden="true"
-            className="w-full h-full object-cover opacity-25"
-          />
-          {/* Warm amber radial glow — echoes the studio's circular light */}
-          <div
-            className="absolute inset-0"
-            style={{
-              background:
-                "radial-gradient(ellipse 55% 60% at 65% 45%, rgba(200,136,42,0.12) 0%, transparent 70%)",
-            }}
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-studio-bg via-studio-bg/50 to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-r from-studio-bg/80 via-transparent to-transparent" />
+      {/* ── Hero ─────────────────────────────────────────────── */}
+      <section className="hero" aria-labelledby="hero-title">
+        <div className="hero__content">
+          <span className="hero__eyebrow">Estética facial · Buenos Aires</span>
+          <h1 className="hero__title" id="hero-title">
+            Tu piel,<br />en su<br /><em>mejor versión</em>
+          </h1>
+          <p className="hero__sub">
+            Rituales personalizados que combinan ciencia y sensorialidad para una piel saludable, luminosa y en equilibrio.
+          </p>
+          <Link href="/services" className="btn btn--primary">
+            Descubrir servicios <span aria-hidden="true">→</span>
+          </Link>
         </div>
 
-        <div className="relative z-10 max-w-6xl mx-auto px-6 py-28">
-          <div className="max-w-2xl">
-            <span className="inline-block text-studio-accent text-xs font-bold tracking-[0.25em] uppercase mb-5">
-              Lumiere Wellness Center — Los Angeles
-            </span>
-            <h1 className="text-5xl md:text-7xl font-bold text-studio-text leading-[1.1] mb-7">
-              Elevate Your{" "}
-              <span className="text-studio-accent">Natural</span>
-              <br />
-              Beauty
-            </h1>
-            <p className="text-studio-muted text-lg md:text-xl leading-relaxed mb-10 max-w-xl">
-              Premium skincare treatments, lash artistry, and personalized
-              beauty experiences — crafted to make you feel confidently radiant.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Link href="/contact">
-                <Button size="lg" className="w-full sm:w-auto">
-                  Book Your Session
-                </Button>
-              </Link>
-              <Link href="/services">
-                <Button
-                  variant="outline"
-                  size="lg"
-                  className="w-full sm:w-auto group"
-                >
-                  View Services
-                  <ArrowRight
-                    size={16}
-                    className="ml-2 group-hover:translate-x-1 transition-transform"
-                  />
-                </Button>
-              </Link>
-            </div>
-          </div>
+        <div className="hero__img-wrap" aria-hidden="true">
+          <div className="img-placeholder">hero.jpg</div>
         </div>
       </section>
 
-      {/* ── Stats bar ────────────────────────────────────────────────── */}
-      <section className="border-y border-studio-border bg-studio-surface/60 backdrop-blur-sm">
-        <div className="max-w-6xl mx-auto px-6 py-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 divide-x-0 md:divide-x divide-studio-border">
-            {stats.map((stat) => (
-              <div key={stat.label} className="text-center px-4">
-                <p className="text-3xl md:text-4xl font-bold text-studio-accent">
-                  {stat.value}
-                </p>
-                <p className="text-studio-muted text-sm mt-1.5">{stat.label}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
-      {/* ── Featured Services ─────────────────────────────────────────── */}
-      <section className="py-28 px-6">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <span className="text-studio-accent text-xs font-bold tracking-[0.25em] uppercase">
-              What We Offer
-            </span>
-            <h2 className="text-4xl md:text-5xl font-bold text-studio-text mt-4 mb-5 text-balance">
-              Our Signature Services
-            </h2>
-            <p className="text-studio-muted max-w-xl mx-auto leading-relaxed">
-              Every treatment is tailored to your skin and beauty goals,
-              performed by experienced estheticians using premium products.
-            </p>
-          </div>
+      {/* ── Philosophy Strip ─────────────────────────────────── */}
+      <div className="strip" aria-hidden="true">
+        <p className="strip__quote">&ldquo;Cuidado consciente. Resultados visibles. Bienestar genuino.&rdquo;</p>
+      </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-            {featuredServices.map(({ icon: Icon, title, price, description }) => (
-              <Card
-                key={title}
-                className="group hover:border-studio-accent/50 transition-all duration-300 hover:-translate-y-1.5"
-              >
-                <CardContent className="p-8">
-                  <div className="w-12 h-12 rounded-xl bg-studio-accent/10 border border-studio-accent/25 flex items-center justify-center mb-5 group-hover:bg-studio-accent/20 transition-colors">
-                    <Icon size={22} className="text-studio-accent" />
-                  </div>
-                  <div className="flex items-start justify-between gap-2 mb-3">
-                    <h3 className="text-studio-text font-semibold text-xl leading-snug">
-                      {title}
-                    </h3>
-                    <span className="text-studio-accent font-bold text-sm flex-shrink-0 mt-1">
-                      {price}
-                    </span>
-                  </div>
-                  <p className="text-studio-muted text-sm leading-relaxed">
-                    {description}
-                  </p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
 
-          <div className="text-center">
-            <Link href="/services">
-              <Button variant="outline" size="lg">
-                See All Services
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* ── About / Experience ────────────────────────────────────────── */}
-      <section className="py-28 px-6 bg-studio-surface/30">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            {/* Image with floating badge */}
-            <div className="relative">
-              <img
-                src="https://placehold.co/700x520/2C1F19/C8882A?text=Studio"
-                alt="Lumiere Wellness Center"
-                className="rounded-2xl w-full object-cover border border-studio-border"
-              />
-              {/* Floating info card */}
-              <div className="absolute -bottom-5 -right-4 bg-studio-surface border border-studio-border rounded-xl p-5 shadow-xl hidden md:flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-studio-accent/15 border border-studio-accent/40 flex items-center justify-center flex-shrink-0">
-                  <Clock size={18} className="text-studio-accent" />
-                </div>
-                <div>
-                  <p className="text-studio-text text-sm font-semibold">
-                    Open 7 Days a Week
-                  </p>
-                  <p className="text-studio-muted text-xs">10am – 7pm daily</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Copy */}
+      {/* ── Featured Services ─────────────────────────────────── */}
+      <section className="services-section section" aria-labelledby="services-title">
+        <div className="container">
+          <div className="services-section__header">
             <div>
-              <span className="text-studio-accent text-xs font-bold tracking-[0.25em] uppercase">
-                The Experience
-              </span>
-              <h2 className="text-4xl font-bold text-studio-text mt-4 mb-6 leading-tight text-balance">
-                Beauty in a Space That Feels Like Home
-              </h2>
-              <p className="text-studio-muted leading-relaxed mb-5">
-                Step into a sanctuary designed for your comfort. Our studio
-                blends warm, intimate ambiance with professional-grade tools to
-                give you a truly elevated experience from the moment you walk in.
-              </p>
-              <p className="text-studio-muted leading-relaxed mb-10">
-                Whether it&apos;s your first facial or your hundredth lash
-                appointment, we treat every visit as a personalized ritual —
-                because you deserve nothing less.
-              </p>
+              <span className="section-label">Tratamientos</span>
+              <h2 className="services-section__title" id="services-title">Nuestros tratamientos</h2>
+            </div>
+            <Link href="/services" className="btn btn--outline">Ver todos los servicios</Link>
+          </div>
 
-              <div className="space-y-5">
-                {reasons.map(({ icon: Icon, title, description }) => (
-                  <div key={title} className="flex gap-4">
-                    <div className="w-9 h-9 rounded-lg bg-studio-accent/10 border border-studio-accent/25 flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <Icon size={16} className="text-studio-accent" />
-                    </div>
-                    <div>
-                      <p className="text-studio-text text-sm font-semibold mb-1">
-                        {title}
-                      </p>
-                      <p className="text-studio-muted text-sm leading-relaxed">
-                        {description}
-                      </p>
-                    </div>
+          <div className="services-grid" aria-live="polite">
+            {featured === null ? (
+              <>
+                <SkeletonCard />
+                <SkeletonCard />
+                <SkeletonCard />
+              </>
+            ) : featured.length === 0 ? (
+              <p style={{ color: "var(--color-muted)", gridColumn: "1/-1", textAlign: "center", padding: "2rem 0" }}>
+                No se pudieron cargar los servicios. Por favor, intentá más tarde.
+              </p>
+            ) : (
+              featured.map((svc, i) => (
+                <article
+                  key={svc.id}
+                  className={`service-card${i === 0 ? " service-card--featured" : ""}`}
+                >
+                  <div className="service-card__img-wrap">
+                    <div className="img-placeholder">service-{i + 1}.jpg</div>
                   </div>
-                ))}
-              </div>
+                  <div className="service-card__body">
+                    <h3 className="service-card__name">{svc.name}</h3>
+                    <p className="service-card__desc">{svc.description}</p>
+                    <Link href="/services" className="service-card__link">Ver más</Link>
+                  </div>
+                </article>
+              ))
+            )}
+          </div>
+        </div>
+      </section>
+
+
+      {/* ── About ────────────────────────────────────────────── */}
+      <section className="about section" id="nosotras" aria-labelledby="about-title">
+        <div className="container">
+          <div className="about__inner">
+            <div className="about__img-wrap">
+              <div className="img-placeholder">about.jpg</div>
+            </div>
+
+            <div className="about__content">
+              <span className="section-label">Nuestra historia</span>
+              <h2 className="about__title" id="about-title">
+                Una mirada diferente sobre el cuidado de la piel
+              </h2>
+              <div className="about__divider" aria-hidden="true" />
+              <p className="about__text">
+                Lumiere Wellness Center nació de la convicción de que cada piel cuenta su propia historia. No creemos en rutinas genéricas ni en soluciones express: creemos en el tiempo que se dedica a escuchar, analizar y diseñar protocolos realmente adaptados a cada persona.
+              </p>
+              <p className="about__text">
+                Trabajamos con ingredientes activos de alta eficacia, tecnologías de última generación y, sobre todo, con las manos y la atención que merecés. Porque el verdadero lujo es sentirte bien en tu propia piel.
+              </p>
+              <Link href="/services" className="btn btn--outline" style={{ marginTop: "0.5rem" }}>
+                Conocer los tratamientos
+              </Link>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── CTA Banner ───────────────────────────────────────────────── */}
-      <section className="py-28 px-6">
-        <div className="max-w-6xl mx-auto">
-          <div className="relative rounded-3xl bg-studio-surface border border-studio-border overflow-hidden px-8 py-20 md:px-20 text-center">
-            {/* Ambient glow */}
-            <div
-              className="absolute inset-0 pointer-events-none"
-              style={{
-                background:
-                  "radial-gradient(ellipse 70% 50% at 50% 0%, rgba(200,136,42,0.10) 0%, transparent 70%)",
-              }}
-            />
-            <div className="relative z-10">
-              <span className="text-studio-accent text-xs font-bold tracking-[0.25em] uppercase">
-                Ready to Glow?
-              </span>
-              <h2 className="text-4xl md:text-5xl font-bold text-studio-text mt-4 mb-5 text-balance">
-                Book Your Appointment Today
-              </h2>
-              <p className="text-studio-muted max-w-lg mx-auto leading-relaxed mb-10">
-                Secure your spot at the studio — fill out our contact form or
-                use our online scheduler to find a time that works perfectly for
-                you.
+
+      {/* ── Ritual / Process ──────────────────────────────────── */}
+      <section className="ritual section" aria-labelledby="ritual-title">
+        <div className="container">
+          <span className="section-label" style={{ textAlign: "center", display: "block" }}>El proceso</span>
+          <h2 className="ritual__title" id="ritual-title">¿Cómo es una sesión?</h2>
+          <p className="ritual__sub">
+            Cada visita está diseñada para que te sientas acompañada desde el primer momento.
+          </p>
+
+          <div className="ritual__steps" role="list">
+            <div className="ritual__step" role="listitem">
+              <div className="ritual__step-icon" aria-hidden="true">🧖</div>
+              <span className="ritual__step-num">Paso 01</span>
+              <h3 className="ritual__step-name">Diagnóstico</h3>
+              <p className="ritual__step-desc">
+                Analizamos tu piel, tu rutina actual y tus objetivos para diseñar el protocolo ideal.
               </p>
-              <Link href="/contact">
-                <Button size="lg">
-                  Schedule a Session
-                  <ArrowRight size={16} className="ml-2" />
-                </Button>
-              </Link>
+            </div>
+
+            <div className="ritual__step" role="listitem">
+              <div className="ritual__step-icon" aria-hidden="true">✨</div>
+              <span className="ritual__step-num">Paso 02</span>
+              <h3 className="ritual__step-name">Tratamiento</h3>
+              <p className="ritual__step-desc">
+                Aplicamos las técnicas y activos seleccionados con el tiempo y la precisión que cada paso requiere.
+              </p>
+            </div>
+
+            <div className="ritual__step" role="listitem">
+              <div className="ritual__step-icon" aria-hidden="true">🌿</div>
+              <span className="ritual__step-num">Paso 03</span>
+              <h3 className="ritual__step-name">Pautas personalizadas</h3>
+              <p className="ritual__step-desc">
+                Te asesoramos sobre cómo cuidar los resultados en casa con una rutina pensada para vos.
+              </p>
             </div>
           </div>
+        </div>
+      </section>
+
+
+      {/* ── Gallery Teaser ────────────────────────────────────── */}
+      <section className="gallery section" aria-labelledby="gallery-title">
+        <div className="container">
+          <span className="section-label" style={{ textAlign: "center", display: "block" }}>Galería</span>
+          <h2 className="gallery__title" id="gallery-title">Momentos</h2>
+
+          <div className="gallery__grid" aria-label="Galería de imágenes">
+            <div className="gallery__item"><div className="img-placeholder">gallery-1.jpg</div></div>
+            <div className="gallery__item"><div className="img-placeholder">gallery-2.jpg</div></div>
+            <div className="gallery__item"><div className="img-placeholder">gallery-3.jpg</div></div>
+            <div className="gallery__item"><div className="img-placeholder">gallery-4.jpg</div></div>
+          </div>
+        </div>
+      </section>
+
+
+      {/* ── CTA Banner ────────────────────────────────────────── */}
+      <section className="cta-banner" id="contacto" aria-labelledby="cta-title">
+        <div className="container">
+          <span className="section-label" style={{ color: "rgba(255,255,255,0.65)" }}>Reservas</span>
+          <h2 className="cta-banner__title" id="cta-title">Reservá tu ritual</h2>
+          <p className="cta-banner__sub">
+            Tomáte el tiempo que merecés. Escribinos y encontramos juntas el turno perfecto para vos.
+          </p>
+          <a
+            href="https://wa.me/549XXXXXXXXXX?text=Hola!%20Quiero%20reservar%20un%20turno%20en%20Lumiere%20Wellness%20Center."
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn btn--outline-white"
+          >
+            Escribinos por WhatsApp
+          </a>
         </div>
       </section>
     </>

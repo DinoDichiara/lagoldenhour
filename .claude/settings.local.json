@@ -1,7 +1,14 @@
 {
   "permissions": {
     "allow": [
-      "Bash(npm install *)"
+      "Bash(npm install *)",
+      "Bash(git add *)",
+      "Bash(brew install *)",
+      "Bash(curl -sS https://webi.sh/gh)",
+      "Bash(sh)",
+      "Bash(ls /Users/dinodichiara/studio_proyects/lumiere_wellness_center/../)",
+      "Bash(mkdir -p /Users/dinodichiara/studio_proyects/lucila_facial/data /Users/dinodichiara/studio_proyects/lucila_facial/images && echo \"done\")",
+      "Bash(npm run *)"
     ]
   }
 }

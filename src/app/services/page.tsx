@@ -1,175 +1,152 @@
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import {
-  Sparkles,
-  Star,
-  Leaf,
-  Zap,
-  Wind,
-  Scissors,
-  Droplets,
-  ArrowRight,
-  Plus,
-} from "lucide-react";
+"use client";
+
+import { useEffect, useState } from "react";
 
 type Service = {
-  title: string;
-  price: string;
-  addOn?: string;
-  icon: React.ElementType;
-};
-
-type Category = {
-  label: string;
+  id: number;
+  name: string;
+  category: string;
   description: string;
-  services: Service[];
+  duration: string;
+  price: string;
+  featured: boolean;
 };
 
-const categories: Category[] = [
-  {
-    label: "Facials",
-    description:
-      "Personalized treatments designed to cleanse, treat, and revitalize your skin using medical-grade products.",
-    services: [
-      { title: "Facial Esencial", price: "$100", addOn: "+ Ampoule", icon: Sparkles },
-      { title: "Plasma Acne Facial", price: "$115", addOn: "+ Ampoule", icon: Zap },
-      { title: "Hydrafacial", price: "$150", addOn: "+ Ampoule", icon: Droplets },
-      { title: "Lift + Facial", price: "$140", addOn: "+ Ampoule", icon: Sparkles },
-      { title: "Brightening Facial", price: "$140", addOn: "+ Ampoule", icon: Sparkles },
-      { title: "Sensitive Skin Facial", price: "$130", addOn: "+ Ampoule", icon: Leaf },
-      { title: "Microdermabrasion", price: "$75", icon: Wind },
-      { title: "Microdermabrasion + Facial", price: "$130", addOn: "+ Ampoule", icon: Wind },
-      { title: "Chemical Peel Facial (Superficial)", price: "$150", addOn: "+ Ampoule", icon: Zap },
-      { title: "Luxury Spa Facial", price: "$180", addOn: "+ Ampoule", icon: Sparkles },
-      { title: "Back Facial", price: "$250", icon: Sparkles },
-      { title: "Dermaplaning", price: "$100", icon: Wind },
-    ],
-  },
-  {
-    label: "Lash & Brow",
-    description:
-      "Expert lash and brow treatments to define and elevate your natural features.",
-    services: [
-      { title: "Lash Lift", price: "$70", icon: Star },
-      { title: "Brow Lamination", price: "$70", icon: Leaf },
-      { title: "Lash & Brow Tint", price: "$50", icon: Leaf },
-    ],
-  },
-  {
-    label: "Body",
-    description:
-      "Nourishing and smoothing body treatments for a full head-to-toe glow.",
-    services: [
-      { title: "Body Scrub", price: "$40", icon: Droplets },
-    ],
-  },
-  {
-    label: "Waxing",
-    description:
-      "Fast, gentle hair removal using premium wax formulas for long-lasting smooth results.",
-    services: [
-      { title: "Waxing", price: "$40", addOn: "per zone", icon: Scissors },
-    ],
-  },
-];
+function SkeletonCard() {
+  return (
+    <div className="skeleton-card">
+      <div className="skeleton skeleton-tag" />
+      <div className="skeleton skeleton-name" />
+      <div className="skeleton skeleton-text" />
+      <div className="skeleton skeleton-text" />
+      <div className="skeleton skeleton-text" style={{ width: "65%" }} />
+      <div className="skeleton skeleton-btn" />
+    </div>
+  );
+}
 
 export default function ServicesPage() {
+  const [services, setServices] = useState<Service[] | null>(null);
+  const [activeFilter, setActiveFilter] = useState("all");
+  const [categories, setCategories] = useState<string[]>([]);
+
+  useEffect(() => {
+    fetch("/data/services.json")
+      .then((r) => r.json())
+      .then((data: Service[]) => {
+        setServices(data);
+        setCategories(Array.from(new Set(data.map((s) => s.category))));
+      })
+      .catch(() => setServices([]));
+  }, []);
+
+  const filtered =
+    services === null
+      ? null
+      : activeFilter === "all"
+      ? services
+      : services.filter((s) => s.category === activeFilter);
+
   return (
-    <div className="py-20 px-6">
-      <div className="max-w-6xl mx-auto">
-
-        {/* Header */}
-        <div className="text-center mb-20">
-          <span className="text-studio-accent text-xs font-bold tracking-[0.25em] uppercase">
-            Full Service Menu
-          </span>
-          <h1 className="text-5xl md:text-6xl font-bold text-studio-text mt-4 mb-5 text-balance">
-            Our Services
-          </h1>
-          <p className="text-studio-muted max-w-xl mx-auto leading-relaxed text-lg">
-            From skincare essentials to transformative beauty treatments —
-            everything you need to look and feel your very best.
+    <>
+      {/* ── Catalog Hero ──────────────────────────────────────── */}
+      <div className="catalog-hero">
+        <div className="container">
+          <span className="section-label">Menú de tratamientos</span>
+          <h1 className="catalog-hero__title">Nuestros servicios</h1>
+          <p className="catalog-hero__sub">
+            Cada tratamiento está diseñado con protocolos de alta eficacia, adaptados a tu tipo de piel y objetivos.
           </p>
-        </div>
-
-        {/* Ampoule add-on note */}
-        <div className="flex items-start gap-3 bg-studio-surface border border-studio-accent/25 rounded-xl p-4 mb-14 max-w-lg mx-auto">
-          <div className="w-8 h-8 rounded-lg bg-studio-accent/15 border border-studio-accent/30 flex items-center justify-center flex-shrink-0 mt-0.5">
-            <Plus size={14} className="text-studio-accent" />
-          </div>
-          <p className="text-studio-muted text-sm leading-relaxed">
-            <span className="text-studio-text font-semibold">Ampoule Add-On available</span> for
-            most facial treatments — an extra boost of concentrated active ingredients
-            customized to your skin concern.
-          </p>
-        </div>
-
-        {/* Categories */}
-        <div className="space-y-20">
-          {categories.map((cat) => (
-            <div key={cat.label}>
-              {/* Category header */}
-              <div className="mb-8 pb-4 border-b border-studio-border">
-                <h2 className="text-2xl font-bold text-studio-text">{cat.label}</h2>
-                <p className="text-studio-muted text-sm mt-1.5 max-w-lg">{cat.description}</p>
-              </div>
-
-              {/* Service cards */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {cat.services.map(({ title, price, addOn, icon: Icon }) => (
-                  <Card
-                    key={title}
-                    className="group hover:border-studio-accent/40 transition-all duration-300 hover:-translate-y-1"
-                  >
-                    <CardContent className="p-6 flex items-start gap-4">
-                      <div className="w-10 h-10 rounded-xl bg-studio-accent/10 border border-studio-accent/25 flex items-center justify-center flex-shrink-0 group-hover:bg-studio-accent/20 transition-colors">
-                        <Icon size={18} className="text-studio-accent" />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-studio-text font-semibold text-sm leading-snug mb-1.5">
-                          {title}
-                        </p>
-                        <p className="text-studio-accent font-bold text-lg">{price}</p>
-                        {addOn && (
-                          <p className="text-studio-subtle text-xs mt-0.5">{addOn}</p>
-                        )}
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* CTA */}
-        <div className="relative rounded-3xl bg-studio-surface border border-studio-border p-12 md:p-16 text-center overflow-hidden mt-20">
-          <div
-            className="absolute inset-0 pointer-events-none"
-            style={{
-              background:
-                "radial-gradient(ellipse 60% 50% at 50% 0%, rgba(200,136,42,0.09) 0%, transparent 70%)",
-            }}
-          />
-          <div className="relative z-10">
-            <h3 className="text-3xl font-bold text-studio-text mb-4 text-balance">
-              Not Sure Where to Start?
-            </h3>
-            <p className="text-studio-muted max-w-md mx-auto mb-8 leading-relaxed">
-              Book a complimentary skin consultation and our estheticians will
-              recommend the perfect treatments for your unique skin profile and
-              beauty goals.
-            </p>
-            <Link href="/contact">
-              <Button size="lg">
-                Book a Consultation
-                <ArrowRight size={16} className="ml-2" />
-              </Button>
-            </Link>
-          </div>
         </div>
       </div>
-    </div>
+
+
+      {/* ── Filter Bar ────────────────────────────────────────── */}
+      <div className="filter-bar" role="navigation" aria-label="Filtrar por categoría">
+        <div className="container filter-bar__inner">
+          {services === null ? (
+            <span style={{ fontSize: "0.8rem", color: "var(--color-muted)" }}>Cargando filtros…</span>
+          ) : (
+            <>
+              <button
+                className={`filter-btn${activeFilter === "all" ? " active" : ""}`}
+                onClick={() => setActiveFilter("all")}
+              >
+                Todos
+              </button>
+              {categories.map((cat) => (
+                <button
+                  key={cat}
+                  className={`filter-btn${activeFilter === cat ? " active" : ""}`}
+                  onClick={() => setActiveFilter(cat)}
+                >
+                  {cat}
+                </button>
+              ))}
+            </>
+          )}
+        </div>
+      </div>
+
+
+      {/* ── Catalog Grid ──────────────────────────────────────── */}
+      <section className="catalog-section" aria-labelledby="catalog-title">
+        <div className="container">
+          <h2 id="catalog-title" className="sr-only">Listado de servicios</h2>
+          <div className="catalog-grid" aria-live="polite">
+            {filtered === null ? (
+              Array.from({ length: 6 }).map((_, i) => <SkeletonCard key={i} />)
+            ) : filtered.length === 0 ? (
+              <div className="empty-state">
+                <div className="empty-state__icon">🔍</div>
+                <h3 className="empty-state__title">Sin resultados</h3>
+                <p className="empty-state__text">No hay servicios en esta categoría todavía.</p>
+              </div>
+            ) : (
+              filtered.map((svc) => (
+                <article key={svc.id} className="catalog-card" data-category={svc.category}>
+                  <span className="catalog-card__tag">{svc.category}</span>
+                  <h3 className="catalog-card__name">{svc.name}</h3>
+                  <p className="catalog-card__desc">{svc.description}</p>
+                  <div className="catalog-card__meta">
+                    <span>⏱ {svc.duration}</span>
+                  </div>
+                  <div className="catalog-card__price">{svc.price}</div>
+                  <div className="catalog-card__cta">
+                    <a
+                      href={`https://wa.me/549XXXXXXXXXX?text=${encodeURIComponent(`Hola! Me gustaría consultar sobre el servicio: ${svc.name}`)}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="btn btn--primary"
+                    >
+                      Consultar
+                    </a>
+                  </div>
+                </article>
+              ))
+            )}
+          </div>
+        </div>
+      </section>
+
+
+      {/* ── CTA Strip ─────────────────────────────────────────── */}
+      <section className="cta-banner" aria-labelledby="cta-strip-title">
+        <div className="container">
+          <h2 className="cta-banner__title" id="cta-strip-title">¿Tenés dudas sobre qué tratamiento elegir?</h2>
+          <p className="cta-banner__sub">
+            Escribinos y te asesoramos sin compromiso para encontrar el protocolo ideal para tu piel.
+          </p>
+          <a
+            href="https://wa.me/549XXXXXXXXXX?text=Hola!%20Quisiera%20asesoramiento%20sobre%20los%20tratamientos%20de%20Lumiere%20Wellness%20Center."
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn btn--outline-white"
+          >
+            Consultar por WhatsApp
+          </a>
+        </div>
+      </section>
+    </>
   );
 }

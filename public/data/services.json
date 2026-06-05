@@ -1,0 +1,83 @@
+[
+  {
+    "id": 1,
+    "name": "Limpieza Facial Profunda",
+    "category": "Facial",
+    "description": "Tratamiento purificante que elimina impurezas, exceso de sebo y células muertas, dejando la piel renovada y luminosa.",
+    "duration": "60 min",
+    "price": "$1.200",
+    "featured": true
+  },
+  {
+    "id": 2,
+    "name": "Hidratación Intensiva",
+    "category": "Facial",
+    "description": "Infusión de activos hidratantes que restauran el equilibrio hídrico y aportan suavidad duradera a pieles secas o deshidratadas.",
+    "duration": "50 min",
+    "price": "$1.400",
+    "featured": true
+  },
+  {
+    "id": 3,
+    "name": "Peeling Químico Suave",
+    "category": "Facial",
+    "description": "Exfoliación controlada con ácidos de última generación para uniformar tono, reducir manchas y estimular la renovación celular.",
+    "duration": "45 min",
+    "price": "$1.600",
+    "featured": false
+  },
+  {
+    "id": 4,
+    "name": "Radiofrecuencia Facial",
+    "category": "Facial",
+    "description": "Tecnología de calor profundo que estimula el colágeno, reafirma el óvalo facial y suaviza líneas de expresión.",
+    "duration": "55 min",
+    "price": "$2.200",
+    "featured": true
+  },
+  {
+    "id": 5,
+    "name": "Drenaje Linfático Facial",
+    "category": "Facial",
+    "description": "Masaje especializado que activa la circulación, reduce inflamación y descongestiona el rostro para una piel fresca y definida.",
+    "duration": "40 min",
+    "price": "$1.100",
+    "featured": false
+  },
+  {
+    "id": 6,
+    "name": "Tratamiento Anti-Acné",
+    "category": "Facial",
+    "description": "Protocolo específico con activos sebonormalizantes y antibacterianos para pieles con tendencia acnéica. Incluye limpieza, peeling y máscara purificante.",
+    "duration": "70 min",
+    "price": "$1.800",
+    "featured": false
+  },
+  {
+    "id": 7,
+    "name": "Ritual Detox Completo",
+    "category": "Paquetes",
+    "description": "Sesión express de limpieza + hidratación + masaje drenante. Ideal para piel cansada o antes de un evento especial.",
+    "duration": "90 min",
+    "price": "$2.500",
+    "featured": false
+  },
+  {
+    "id": 8,
+    "name": "Pack Luminosidad x4",
+    "category": "Paquetes",
+    "description": "Cuatro sesiones de peeling progresivo + hidratación profunda. Protocolo diseñado para unificar tono y recuperar el brillo natural en un mes.",
+    "duration": "4 sesiones",
+    "price": "$5.200",
+    "featured": false
+  },
+  {
+    "id": 9,
+    "name": "Pack Anti-Edad x3",
+    "category": "Paquetes",
+    "description": "Tres sesiones de radiofrecuencia facial + lifting con masaje sculptor. Resultados visibles desde la primera sesión.",
+    "duration": "3 sesiones",
+    "price": "$6.000",
+    "featured": false
+  }
+]

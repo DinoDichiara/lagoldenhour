@@ -5,19 +5,17 @@ import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
 
 export const metadata: Metadata = {
-  title: "Lumiere Wellness Center | Premium Beauty Studio Los Angeles",
+  title: "Lumiere Wellness Center — Tu piel, en su mejor versión",
   description:
-    "Lumiere Wellness Center — premium wellness and beauty studio in Los Angeles offering custom facials, lash extensions, brow design, and transformative skincare treatments.",
+    "Tratamientos faciales personalizados con técnicas de vanguardia y productos de alta gama. Reservá tu sesión hoy.",
   keywords: [
     "Lumiere Wellness Center",
-    "wellness center",
-    "beauty studio",
-    "facials",
-    "lash extensions",
-    "brow design",
+    "estética facial",
+    "tratamientos faciales",
+    "limpieza facial",
+    "radiofrecuencia",
+    "Buenos Aires",
     "skincare",
-    "Los Angeles",
-    "esthetician",
   ],
 };
 
@@ -27,10 +25,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className="bg-studio-bg text-studio-text antialiased">
+    <html lang="es">
+      <body>
         <Navbar />
-        <main className="min-h-screen pt-16">{children}</main>
+        <main>{children}</main>
         <Footer />
         <WhatsAppButton />
       </body>
